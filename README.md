@@ -6,5 +6,5 @@ This is the chassis of two wheeled rover with stepper motors for precision movem
 - the sensor layer
 
 <p align="center">
-  <img src="./StepperBotChassis" width="400"/>
+  <img src="./StepperBotChassis.jpg" width="400"/>
 </p>
