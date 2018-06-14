@@ -7,6 +7,7 @@ precision movement. It is part of a larger project. The whole rover is
 - the chassis layer: https://github.com/Brezensalzer/StepperBotChassis
 - the control layer: https://github.com/Brezensalzer/StepperBotController
 - the sensor layer: https://github.com/Brezensalzer/StepperBotLidar2
+- the ground station code: https://github.com/Brezensalzer/StepperBotGroundStation
 
 The Arduino code is for a Teensy LC but should be easily adaptable to 
 other microcontroller boards. Openscad, FreeCAD drawings and STL files 
