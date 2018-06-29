@@ -31,10 +31,10 @@
 #define EMERGENCY_PIN 3
 
 // global variables
-int   stepperSpeed = 4000;   // speed of the stepper (steps per second)
+int   stepperSpeed = 400;   // speed of the stepper (steps per second)
 float wheel_dia = 61.0;      // # mm (increase = spiral out)
-float wheel_base = 100.7;    // # mm (increase = spiral in) 
-int   steps_rev = 3200;      // steps per revolution
+float wheel_base = 105.2;    // # mm (increase = spiral in) 
+int   steps_rev = 200;      // steps per revolution
 long positions[2];
 long steps1, steps2, delta;
 int gear = 1;
@@ -66,12 +66,12 @@ void setup() {
   stepperLeft.setMaxSpeed(stepperSpeed);
   stepperRight.setMaxSpeed(stepperSpeed);
   
-  // set microstepping 16 and enable driver
-  // M0 = high, M1 = high
+  // set full steps and enable driver
+  // M0 = low, M1 = low
   pinMode(M0, OUTPUT);
-  digitalWrite(M0, HIGH);
+  digitalWrite(M0, LOW);
   pinMode(M1, OUTPUT);
-  digitalWrite(M1, HIGH);
+  digitalWrite(M1, LOW);
   pinMode(SLEEP_PIN, OUTPUT);
   digitalWrite(SLEEP_PIN, HIGH);
 
@@ -161,7 +161,9 @@ void loop() {
 
 // ----- HELPER FUNCTIONS -----------
 int step(float distance){
-  int steps = distance * steps_rev / (wheel_dia * 3.1412); //24.61
+  int steps = distance * steps_rev / (wheel_dia * 3.1412);
+  //Serial1.print("calculated steps: ");
+  //Serial1.println(steps);
   return steps;  
 }
 
@@ -199,7 +201,7 @@ void forward(float distance){
     steps2 = stepperRight.distanceToGo();
     // poor man's acceleration
     delta = positions[0] - steps1;
-    if ((delta >= 100) && (delta < 500))
+    if ((delta >= 10) && (delta < 50))
       {
         if (gear == 1) {
           stepperLeft.setSpeed(stepperSpeed/2);
@@ -207,7 +209,7 @@ void forward(float distance){
           gear = 2;
         }
        }
-    else if ((delta >= 500) && (steps1 > 500))  
+    else if ((delta >= 50) && (steps1 > 50))  
       {
         if (gear == 2) {
           stepperLeft.setSpeed(stepperSpeed*3/4);
@@ -215,7 +217,7 @@ void forward(float distance){
           gear = 3;
         }
        }
-    else if ((delta >= 1000) && (steps1 > 1000))  
+    else if ((delta >= 100) && (steps1 > 100))  
       {
         if (gear == 3) {
           stepperLeft.setSpeed(stepperSpeed);
@@ -224,7 +226,7 @@ void forward(float distance){
         }
        }
     // deceleration   
-    else if ((steps1 <= 1000) && (steps1 > 500))   
+    else if ((steps1 <= 100) && (steps1 > 50))   
       {
         if (gear == 4) {
           stepperLeft.setSpeed(stepperSpeed/2);
@@ -232,7 +234,7 @@ void forward(float distance){
           gear = 3;
         }
        }
-    else if ((steps1 <= 500) && (steps1 > 100))   
+    else if ((steps1 <= 50) && (steps1 > 10))   
       {
         if (gear == 3) {
           stepperLeft.setSpeed(stepperSpeed/2);
@@ -240,7 +242,7 @@ void forward(float distance){
           gear = 2;
         }
        }
-    else if (steps1 <= 100)   
+    else if (steps1 <= 10)   
       {
         if (gear == 2) {
           stepperLeft.setSpeed(stepperSpeed/4);
@@ -268,7 +270,7 @@ void backward(float distance){
     steps2 = stepperRight.distanceToGo();
     // poor man's acceleration
     delta = positions[1] - steps2;
-    if ((delta >= 100) && (delta < 500))
+    if ((delta >= 10) && (delta < 50))
       {
         if (gear == 1) {
           stepperLeft.setSpeed(-stepperSpeed/2);
@@ -276,7 +278,7 @@ void backward(float distance){
           gear = 2;
         }
        }
-    else if ((delta >= 500) && (steps2 > 500))  
+    else if ((delta >= 50) && (steps2 > 50))  
       {
         if (gear == 2) {
           stepperLeft.setSpeed(-stepperSpeed*3/4);
@@ -284,7 +286,7 @@ void backward(float distance){
           gear = 3;
         }
        }
-    else if ((delta >= 1000) && (steps2 > 1000))  
+    else if ((delta >= 100) && (steps2 > 100))  
       {
         if (gear == 3) {
           stepperLeft.setSpeed(-stepperSpeed);
@@ -293,7 +295,7 @@ void backward(float distance){
         }
        }
     // deceleration   
-    else if ((steps2 <= 1000) && (steps2 > 500))   
+    else if ((steps2 <= 100) && (steps2 > 50))   
       {
         if (gear == 4) {
           stepperLeft.setSpeed(-stepperSpeed/2);
@@ -301,7 +303,7 @@ void backward(float distance){
           gear = 3;
         }
        }
-    else if ((steps2 <= 500) && (steps2 > 100))   
+    else if ((steps2 <= 50) && (steps2 > 10))   
       {
         if (gear == 3) {
           stepperLeft.setSpeed(-stepperSpeed/2);
@@ -309,7 +311,7 @@ void backward(float distance){
           gear = 2;
         }
        }
-    else if (steps2 <= 100)   
+    else if (steps2 <= 10)   
       {
         if (gear == 2) {
           stepperLeft.setSpeed(-stepperSpeed/4);
