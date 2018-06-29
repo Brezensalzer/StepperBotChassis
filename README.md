@@ -26,7 +26,7 @@ To complete the mechanical build, the following parts are needed:
 - LiPo protection circuit
 - LiPo charging module
 - Pololu ball caster 3/8" plastic ball
-- Pololu 5V step-up/step-down voltage regulator S7V7F5
+- Pololu 3.3V step-up/step-down voltage regulator S7V8F3
 - Teensy LC
 - Toggle switch 3-pin
 - M2.5 screws for the stepper mounting
